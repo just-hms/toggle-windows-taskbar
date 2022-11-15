@@ -6,21 +6,26 @@ on:
       - created
 
 jobs:
-  Example:
-    name: Example
+  build:
+    name: Build
     runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Build ahk to exe
+      - name: Ahk to exe
         uses: nekocodeX/GitHub-Action-Ahk2Exe@main
         with:
-          in: swap.ahk
+          in: toggle_taskbar.ahk
+      
+      - name: Compress everything
+        run: |
+          tar -cvzf toggle_taskbar.tar.gz toggle_taskbar.exe README.md 
+      
       - name: Copy Build Artifacts
         uses: softprops/action-gh-release@v1
         # if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            swap.tar.gz
+            toggle_taskbar.tar.gz
           
